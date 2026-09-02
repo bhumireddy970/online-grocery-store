@@ -1,0 +1,1 @@
+ALTER TABLE customers ADD COLUMN role VARCHAR(255) default "customer";
