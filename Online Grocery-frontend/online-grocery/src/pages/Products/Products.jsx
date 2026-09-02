@@ -54,7 +54,7 @@ const Products = () => {
 
       <div className="section-title">Categories</div>
 
-      <div>
+      <div className="category-container">
         <Category />
       </div>
 

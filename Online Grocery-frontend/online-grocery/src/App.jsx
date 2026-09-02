@@ -1,11 +1,11 @@
-import Headers from "./pages/Header";
 import Footer from "./pages/Footer/Footer";
-import Routing from "./Routing";
+import Routing from "./routes/Routing";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
     <>
-      <Headers />
+      <Navbar />
       <Routing />
       <Footer />
     </>

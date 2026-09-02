@@ -1,7 +1,6 @@
-import  { useContext, useState } from "react";
-import { User, Mail, Phone, MapPin, Edit, Save, X, Link } from "lucide-react";
+import { useContext, useState } from "react";
+import { User, Mail, Phone, MapPin, Edit, Save, X } from "lucide-react";
 import { orderService } from "../../api/orderService";
-import BackButton from "../../components/Buttons/BackButton"; 
 import { AuthContext } from "../../context/AuthContext";
 import "./Profile.scss";
 
@@ -32,11 +31,13 @@ const Profile = () => {
   const handleCancel = () => {
     setIsEditing(false);
   };
-  
 
   const handleUpdate = async () => {
     try {
-      const response = await orderService.updateCustomerProfile(user.id, formData);
+      const response = await orderService.updateCustomerProfile(
+        user.id,
+        formData,
+      );
 
       login(response.data);
       setIsEditing(false);
@@ -59,7 +60,6 @@ const Profile = () => {
   }
 
   return (
-    
     <div className="profile-page">
       <div className="profile-card">
         <div className="profile-header">

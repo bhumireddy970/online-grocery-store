@@ -1,10 +1,7 @@
-import React from 'react'
-import './BackButton.scss'
+import "./BackButton.scss";
 
 const BackButton = () => {
-  return (
-    <div className="back-button">Back</div>
-  )
-}
+  return <button className="back-button">Back</button>;
+};
 
-export default BackButton
+export default BackButton;

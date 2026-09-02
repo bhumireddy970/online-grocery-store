@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.scss";
 import validator from "validator";
-import axios from "axios";
 
 import { AuthContext } from "../../context/AuthContext";
 import { orderService } from "../../api/orderService";
@@ -140,8 +139,8 @@ const Register = () => {
             {" "}
             {password != ""
               ? isStrong
-                ? "Password Strength: 💪 Strong"
-                : "Password Strength: ❌ Too Weak"
+                ? "Password Strength:  Strong"
+                : "Password Strength:  Too Weak"
               : ""}
           </p>
 

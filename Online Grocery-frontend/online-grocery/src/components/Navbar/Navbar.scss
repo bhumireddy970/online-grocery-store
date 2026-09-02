@@ -15,7 +15,6 @@
   margin-left: 5px;
   margin-right: 5px;
 
-
   .navbar-logo {
     a {
       text-decoration: none;
@@ -40,12 +39,10 @@
     }
   }
 
-
   .navbar-actions {
     display: flex;
     align-items: center;
     gap: 25px;
-
 
     .cart-link {
       display: flex;
@@ -55,7 +52,6 @@
       text-decoration: none;
       color: #333;
     }
-
 
     .login-button {
       text-decoration: none;
@@ -71,7 +67,6 @@
         background-color: #0056b3;
       }
     }
-
 
     .profile-link {
       display: flex;

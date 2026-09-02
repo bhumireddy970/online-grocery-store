@@ -1,0 +1,175 @@
+.product-manager,
+.category-manager {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #212529;
+
+  .form-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 1.25rem;
+    }
+
+    .product-form,
+    .category-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+
+      input,
+      select {
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        outline: none;
+        background-color: #ffffff;
+
+        &:focus {
+          border-color: #4da3ff;
+          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
+      }
+
+      .form-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+
+        button {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+
+          &.btn-submit {
+            color: #ffffff;
+
+            &.add-mode {
+              background-color: #28a745;
+              &:hover {
+                background-color: #218838;
+              }
+            }
+
+            &.edit-mode {
+              background-color: #007bff;
+              &:hover {
+                background-color: #0069d9;
+              }
+            }
+          }
+
+          &.btn-clear {
+            background-color: #6c757d;
+            color: #ffffff;
+            &:hover {
+              background-color: #5a6268;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .status-message {
+    font-size: 1rem;
+    padding: 10px 0;
+
+    &.error {
+      color: #dc3545;
+      font-weight: bold;
+    }
+  }
+
+  .product-table,
+  .category-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #ffffff;
+
+    thead {
+      tr {
+        background-color: #e9ecef;
+        border-bottom: 2px solid #dee2e6;
+      }
+
+      th {
+        padding: 14px 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #dee2e6;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+          background-color: rgba(0, 123, 255, 0.02);
+        }
+      }
+
+      td {
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        vertical-align: middle;
+      }
+
+      .empty-cell {
+        text-align: center;
+        padding: 30px;
+        color: #6c757d;
+        font-style: italic;
+      }
+
+      .actions-cell {
+        display: flex;
+        gap: 8px;
+        white-space: nowrap;
+
+        button {
+          padding: 6px 12px;
+          border: 1px solid #dee2e6;
+          border-radius: 4px;
+
+          cursor: pointer;
+          font-size: 0.85rem;
+          transition: all 0.2s ease;
+
+          &.btn-edit {
+            background-color: green;
+            &:hover {
+              background-color: rgba(0, 123, 255, 0.1);
+              border-color: #007bff;
+              color: #007bff;
+            }
+          }
+
+          &.btn-delete {
+            background-color: red;
+            &:hover {
+              background-color: rgba(220, 53, 63, 0.1);
+              border-color: #dc3545;
+              color: #dc3545;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -22,7 +22,6 @@ const Login = () => {
 
     try {
       const response = await orderService.loginCustomer(loginData);
-  
 
       login(response.data);
 

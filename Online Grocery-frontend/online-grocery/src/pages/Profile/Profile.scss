@@ -41,8 +41,6 @@
       border-radius: 50%;
 
       background: linear-gradient(135deg, #007bff, #0056b3);
-
-      color: white;
     }
 
     h1 {
@@ -85,8 +83,6 @@
       border-radius: 8px;
 
       background-color: #f0f6ff;
-
-      color: #007bff;
     }
 
     .field-content {
@@ -109,8 +105,6 @@
         font-size: 16px;
 
         color: #222;
-
-        word-break: break-word;
       }
 
       input,
@@ -185,8 +179,6 @@
     .edit-button {
       background-color: #007bff;
 
-      color: white;
-
       &:hover {
         background-color: #0056b3;
 
@@ -217,8 +209,6 @@
     }
   }
 }
-
-
 
 @media (max-width: 600px) {
   .profile-card {

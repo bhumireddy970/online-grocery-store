@@ -31,8 +31,13 @@ const Category = () => {
         }}
       >
         {category.map((category) => (
-          <div key={category.id} onClick={() => setCategoryId(category.id)} role="button">
-            <CategoryCard  Category={category} />
+          <div
+            key={category.id}
+            onClick={() => setCategoryId(category.id)}
+            tabIndex="0"
+            role="button"
+          >
+            <CategoryCard Category={category} />
           </div>
         ))}
       </div>

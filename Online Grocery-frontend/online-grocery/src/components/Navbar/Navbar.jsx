@@ -7,26 +7,24 @@ import LogoutButton from "../Buttons/LogoutButton";
 import { CartContext } from "../../context/CartContext";
 
 const Navbar = () => {
-   const { user } = useContext(AuthContext);
-   const {cartItems} = useContext(CartContext)
+  const { user } = useContext(AuthContext);
+  const { cartItems } = useContext(CartContext);
   return (
     <nav className="navbar">
       <div className="navbar-logo">
         <Link to="/">MyShop</Link>
       </div>
-    {
-      user?.role=="admin"?
-      (<div className="navbar-links">
-        <Link to="/">Home</Link>
-        <Link to="/admin">Admin DashBoard</Link>
-        <Link to="/admin/inventorymanagement">Inventory Management</Link>
-      </div>)
-      :(<div className="navbar-links">
-        <Link to="/">Home</Link>
-        <Link to="/products">Products</Link>
-      </div>)
-    }
-      
+      {user?.role == "admin" ? (
+        <div className="navbar-links">
+          <Link to="/">Home</Link>
+          <Link to="/admin">Admin DashBoard</Link>
+        </div>
+      ) : (
+        <div className="navbar-links">
+          <Link to="/">Home</Link>
+          <Link to="/products">Products</Link>
+        </div>
+      )}
 
       <div className="navbar-actions">
         <Link to="/cart" className="cart-link">

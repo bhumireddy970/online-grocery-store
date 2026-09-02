@@ -49,7 +49,7 @@ export const CartProvider = ({ children }) => {
 
     const targetId = product.productId || product.id;
 
-    const existingItem = cartItems.find(
+    const existingItem = cartItems.some(
       (item) => item.productId === targetId || item.id === targetId,
     );
 
@@ -76,7 +76,6 @@ export const CartProvider = ({ children }) => {
     }
 
     setCartItems(updatedItems);
-    console.log(cartItems);
 
     return true;
   };
@@ -94,7 +93,7 @@ export const CartProvider = ({ children }) => {
       .filter((item) => item.quantity > 0);
 
     setCartItems(updatedItems);
-    console.log(cartItems)
+    console.log(cartItems);
   };
 
   const clearCart = () => {
@@ -130,8 +129,6 @@ export const CartProvider = ({ children }) => {
         "http://localhost:8083/api/orders",
         requestBody,
       );
-
-      console.log(response.data);
 
       if (response.data?.orderId) {
         setOrderId(response.data.orderId);
