@@ -5,7 +5,7 @@ import { productService } from "../../api/productService";
 import { inventoryService } from "../../api/inventoryService";
 import BackButton from "../../components/Buttons/BackButton";
 
-export default function ProductManagement() {
+const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -260,4 +260,6 @@ export default function ProductManagement() {
       )}
     </div>
   );
-}
+};
+
+export default ProductManagement;

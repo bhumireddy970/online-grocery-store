@@ -2,14 +2,28 @@ import { Link } from "react-router-dom";
 import BackButton from "../../components/Buttons/BackButton";
 import Card from "../../components/Card/Card";
 import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
 import { productService } from "../../api/productService";
-import Category from "../Category/Category";
+
+import { AuthContext } from "../../context/AuthContext";
+
 import "./Products.scss";
+import Category from "../Category/Category";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
+  const [ setCategory] = useState([]);
+  const getCategory = async () => {
+    try {
+      const response = await productService.getALlCategories();
+      setCategory(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   const { categoryId, setCategoryId } = useContext(AuthContext);
 
@@ -54,7 +68,7 @@ const Products = () => {
 
       <div className="section-title">Categories</div>
 
-      <div className="category-container">
+      <div>
         <Category />
       </div>
 

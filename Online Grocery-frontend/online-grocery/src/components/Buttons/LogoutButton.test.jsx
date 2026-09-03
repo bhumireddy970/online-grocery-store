@@ -17,7 +17,7 @@ describe("LogoutButton", () => {
     expect(screen.getByRole("button", { name: /logout/i })).toBeInTheDocument();
   });
 
-   it("should call logout when button is clicked", async () => {
+  it("should call logout when button is clicked", async () => {
     const logout = vi.fn();
 
     const user = userEvent.setup();
@@ -25,16 +25,15 @@ describe("LogoutButton", () => {
     render(
       <AuthContext.Provider value={{ logout }}>
         <LogoutButton />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const logoutButton = screen.getByRole("button", {
-      name: /logout/i
+      name: /logout/i,
     });
 
     await user.click(logoutButton);
 
     expect(logout).toHaveBeenCalledTimes(1);
   });
-
 });

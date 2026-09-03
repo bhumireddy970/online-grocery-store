@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.scss";
 import validator from "validator";
@@ -72,7 +72,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Phone Number</label>
+            <label htmlFor="phone">Phone Number</label>
 
             <input
               id="phone"
@@ -86,7 +86,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Address</label>
+            <label htmlFor="address">Address</label>
 
             <textarea
               id="address"

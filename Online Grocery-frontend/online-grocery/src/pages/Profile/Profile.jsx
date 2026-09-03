@@ -79,10 +79,11 @@ const Profile = () => {
           </div>
 
           <div className="field-content">
-            <label htmlFor="name">"Name"</label>
+            <label htmlFor="name">Name</label>
 
             {isEditing ? (
               <input
+                id="name"
                 type="text"
                 name="name"
                 value={formData["name"]}
@@ -100,10 +101,11 @@ const Profile = () => {
           </div>
 
           <div className="field-content">
-            <label htmlFor="email">"Email"</label>
+            <label htmlFor="email">Email</label>
 
             {isEditing ? (
               <input
+                id="email"
                 type="email"
                 name="email"
                 value={formData["email"]}
@@ -121,10 +123,11 @@ const Profile = () => {
           </div>
 
           <div className="field-content">
-            <label htmlFor="phone">"Phone"</label>
+            <label htmlFor="phone">Phone</label>
 
             {isEditing ? (
               <input
+                id="phone"
                 type="tel"
                 name="phone"
                 value={formData["phone"]}
@@ -143,10 +146,11 @@ const Profile = () => {
           </div>
 
           <div className="field-content">
-            <label htmlFor="email">"Address"</label>
+            <label htmlFor="address">Address</label>
 
             {isEditing ? (
               <textarea
+                id="address" 
                 name="address"
                 value={formData["address"]}
                 onChange={handleChange}

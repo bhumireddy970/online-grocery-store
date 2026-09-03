@@ -27,16 +27,21 @@ const Navbar = () => {
       )}
 
       <div className="navbar-actions">
-        <Link to="/cart" className="cart-link">
-          <ShoppingCart size={22} />
-          <span className="cart-items">{cartItems.length}</span>
-        </Link>
-
         {user ? (
-          <Link to="/profile" className="profile-link">
-            <User size={22} />
-            <LogoutButton />
-          </Link>
+          <>
+            <div>
+              <Link to="/cart" className="cart-link">
+                <ShoppingCart size={22} />
+                <span className="cart-items">{cartItems.length}</span>
+              </Link>
+            </div>
+            <div>
+              <Link to="/profile" className="profile-link" aria-label="Profile">
+                <User size={22} />
+                <LogoutButton />
+              </Link>
+            </div>
+          </>
         ) : (
           <Link to="/login" className="login-button">
             Login

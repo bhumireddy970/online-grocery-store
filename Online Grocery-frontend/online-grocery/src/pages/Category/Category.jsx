@@ -20,16 +20,8 @@ const Category = () => {
   }, []);
 
   return (
-    <div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(10, 1fr)",
-          margin: "20px",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+   
+      <div className="category-container">
         {category.map((category) => (
           <div
             key={category.id}
@@ -41,7 +33,7 @@ const Category = () => {
           </div>
         ))}
       </div>
-    </div>
+   
   );
 };
 

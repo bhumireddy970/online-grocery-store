@@ -1,0 +1,8 @@
+
+.category-container {
+  display: grid;
+  grid-template-columns: repeat(10, auto);
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
+}
