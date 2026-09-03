@@ -24,6 +24,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/inventory")
+@CrossOrigin(origins = "http://localhost:5173")
 @Tag(
         name = "Inventory Management API",
         description = """
