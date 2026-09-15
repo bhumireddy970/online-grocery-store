@@ -18,9 +18,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    if (user?.id) {
-      localStorage.removeItem(`cart_${user.id}`);
-    }
     setUser(null);
     localStorage.removeItem("store_user");
   };

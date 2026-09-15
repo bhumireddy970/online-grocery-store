@@ -1,20 +1,53 @@
-import { useContext, useState } from "react";
-import { User, Mail, Phone, MapPin, Edit, Save, X } from "lucide-react";
+import { use, useContext, useState } from "react";
+import { User, Phone, MapPin, Edit, Save, X } from "lucide-react";
 import { orderService } from "../../api/orderService";
 import { AuthContext } from "../../context/AuthContext";
 import "./Profile.scss";
+import Alert from "../../components/Alert/Alert";
 
 const Profile = () => {
   const { user, login } = useContext(AuthContext);
-
   const [isEditing, setIsEditing] = useState(false);
-
+  const [alert, setAlert] = useState({ isOpen: false, message: "" });
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
     address: "",
   });
+  const [errors, setErrors] = useState({});
+
+  const showAlert = (message, type) => {
+    setAlert({ isOpen: true, message, type });
+  };
+
+  const handleCloseAlert = () => {
+    setAlert({ isOpen: false, message: "" });
+  };
+
+  const validateField = (field) => {
+    const newErrors = { ...errors };
+
+    if (field === "name") {
+      if (formData.name.trim() === "") {
+        newErrors.name = "Name is required";
+      } else if (!/^[a-zA-Z ]{3,}$/.test(formData.name)) {
+        newErrors.name = "Enter a valid name";
+      } else {
+        delete newErrors.name;
+      }
+    }
+    if (field === "phone") {
+      if (formData.phone.trim() === "") {
+        newErrors.phone = "Phone Number is required";
+      } else if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+        newErrors.phone = "Enter a valid Phone Number";
+      } else {
+        delete newErrors.phone;
+      }
+    }
+
+    setErrors(newErrors);
+  };
 
   const handleEdit = () => {
     setFormData({ ...user });
@@ -34,18 +67,16 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await orderService.updateCustomerProfile(
-        user.id,
-        formData,
-      );
+      const response = await orderService.updateCustomerProfile(user.id,formData);
 
       login(response.data);
       setIsEditing(false);
 
-      alert("Profile updated successfully");
+
+      showAlert("Profile updated successfully","Success");
     } catch (error) {
-      console.error("Update failed:", error);
-      alert("Failed to update profile");
+      console.error("Update failed:", error?.response?.data);
+      showAlert(error?.response?.data,"Error");
     }
   };
 
@@ -82,37 +113,19 @@ const Profile = () => {
             <label htmlFor="name">Name</label>
 
             {isEditing ? (
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formData["name"]}
-                onChange={handleChange}
-              />
+              <>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={formData["name"]}
+                  onChange={handleChange}
+                  onBlur={() => validateField("name")}
+                />
+                {errors.name ? <p>{errors.name}</p> : ""}
+              </>
             ) : (
               <span>{user["name"] || "Not provided"}</span>
-            )}
-          </div>
-        </div>
-
-        <div className="profile-field" key="email">
-          <div className="field-icon">
-            <Mail size={20} />
-          </div>
-
-          <div className="field-content">
-            <label htmlFor="email">Email</label>
-
-            {isEditing ? (
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData["email"]}
-                onChange={handleChange}
-              />
-            ) : (
-              <span>{user["email"] || "Not provided"}</span>
             )}
           </div>
         </div>
@@ -126,14 +139,18 @@ const Profile = () => {
             <label htmlFor="phone">Phone</label>
 
             {isEditing ? (
-              <input
-                id="phone"
-                type="tel"
-                name="phone"
-                value={formData["phone"]}
-                onChange={handleChange}
-                maxLength="10"
-              />
+              <>
+                {" "}
+                <input
+                  id="phone"
+                  type="tel"
+                  name="phone"
+                  value={formData["phone"]}
+                  onChange={handleChange}
+                  onBlur={() => validateField("phone")}
+                />
+                {errors.phone ? <p>{errors.phone}</p> : ""}
+              </>
             ) : (
               <span>{user["phone"] || "Not provided"}</span>
             )}
@@ -150,7 +167,7 @@ const Profile = () => {
 
             {isEditing ? (
               <textarea
-                id="address" 
+                id="address"
                 name="address"
                 value={formData["address"]}
                 onChange={handleChange}
@@ -174,6 +191,7 @@ const Profile = () => {
                 type="button"
                 className="save-button"
                 onClick={handleUpdate}
+                disabled={Object.keys(errors).length>0}
               >
                 <Save size={18} />
                 Save Changes
@@ -190,6 +208,12 @@ const Profile = () => {
             </>
           )}
         </div>
+        <Alert
+          isOpen={alert.isOpen}
+          message={alert.message}
+          onClose={handleCloseAlert}
+          type={alert.type}
+        />
       </div>
     </div>
   );

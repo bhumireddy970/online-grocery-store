@@ -22,6 +22,7 @@ const ProductManagement = () => {
   };
   const [formData, setFormData] = useState(initialFormState);
   const [isEditing, setIsEditing] = useState(false);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -31,6 +32,9 @@ const ProductManagement = () => {
     setLoading(true);
     try {
       const response = await productService.getAllProducts();
+      const categoryesponse = await productService.getALlCategories();
+
+      setCategory(categoryesponse?.data);
 
       const productsData = response.data;
 
@@ -165,13 +169,19 @@ const ProductManagement = () => {
             <option value="false">Inactive</option>
           </select>
 
-          <input
-            type="text"
+          <select
             name="categoryId"
-            placeholder="Category ID"
-            value={formData.categoryId}
+            value={formData.categoryId || ""}
             onChange={handleInputChange}
-          />
+          >
+            <option value="">Select Category</option>
+            {category.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+
           {!isEditing ? (
             <input
               type="number"
@@ -208,10 +218,11 @@ const ProductManagement = () => {
               <tr>
                 <th>SKU</th>
                 <th>Name</th>
-                <th>Price</th>
+                
                 <th>Description</th>
                 <th>Active</th>
-                <th>Category ID</th>
+                <th>Category</th>
+                <th>Price</th>
                 <th>Available Quantity</th>
                 <th>Reserved Quantity</th>
                 <th>Action</th>
@@ -225,14 +236,17 @@ const ProductManagement = () => {
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
+                products.map((product) => {
+                  const matchedCategory=category.find((cat)=>cat.id===product.categoryId);
+                  return(
                   <tr key={product.id || product.sku}>
                     <td>{product.sku}</td>
                     <td>{product.name}</td>
-                    <td>{product.price}</td>
+                    
                     <td>{product.description}</td>
                     <td>{String(product.active)}</td>
-                    <td>{product.categoryId}</td>
+                    <td>{matchedCategory.name}</td>
+                    <td>{product.price}</td>
                     <td>{product.inventoryCount}</td>
                     <td>{product.inventoryCountreserved}</td>
                     <td className="actions-cell">
@@ -252,7 +266,8 @@ const ProductManagement = () => {
                       </button>
                     </td>
                   </tr>
-                ))
+                )
+                })
               )}
             </tbody>
           </table>

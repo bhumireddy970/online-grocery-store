@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Products from "../pages/Products/Products";
@@ -12,56 +11,43 @@ import AdminDashBoard from "../pages/AdiminPages/AdminDashBoard";
 import Checkout from "../pages/Checkout/Checkout";
 import ProductManagement from "../pages/AdiminPages/ProductManagement";
 import CategoryManagement from "../pages/AdiminPages/CategoryManagement";
+import AdminAccountManagemet from "../pages/AdiminPages/AdminAccountManagemet";
 
 const Routing = () => {
   return (
-     <Routes>
+    <Routes>
+      <Route path="/" element={<Home />} />
 
-        <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
 
+      <Route path="/register" element={<Register />} />
+
+      <Route path="/products" element={<Products />} />
+
+      <Route path="/cart" element={<Cart />} />
+
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/category" element={<Category />} />
+
+      <Route path="/checkout" element={<Checkout />} />
+
+      <Route element={<AdminProtectedRoutes allowedRoles={["admin"]} />}>
+        <Route path="/admin" element={<AdminDashBoard />} />
         <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        <Route
-          path="/products"
-          element={<Products />}
-        />
-
-        <Route
-          path="/cart"
-          element={<Cart />}
-        />
-
-        <Route
-          path="/profile"
-          element={<Profile />}
+          path="/admin/productmanagement"
+          element={<ProductManagement />}
         />
         <Route
-          path="/category"
-          element={<Category />}
+          path="/admin/catogorymanagement"
+          element={<CategoryManagement />}
         />
-
         <Route
-  path="/checkout"
-  element={<Checkout />}
-/>
-
-        <Route element={<AdminProtectedRoutes allowedRoles={['admin']}/>}>
-          <Route path="/admin" element={<AdminDashBoard/>}/>
-          <Route path="/admin/productmanagement" element={<ProductManagement />} />
-          <Route path="/admin/catogorymanagement" element={<CategoryManagement/>}/>
-        </Route>
-
-      </Routes>
-
-  )
-}
+          path="/admin/adminaccountmanagemet"
+          element={<AdminAccountManagemet />}
+        />
+      </Route>
+    </Routes>
+  );
+};
 
 export default Routing;

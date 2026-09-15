@@ -62,7 +62,7 @@ const Products = () => {
           onClick={() => setCategoryId(null)}
           className="show-all-btn"
         >
-          ✕ Show All Products
+           Show All Products
         </button>
       )}
 

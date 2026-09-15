@@ -12,6 +12,9 @@ const AdminDashBoard = () => {
         <Link to="/admin/catogorymanagement">
           <div className="admin-link">Category Management</div>
         </Link>
+        <Link to="/admin/adminaccountmanagemet">
+          <div className="admin-link">Admin Account Management</div>
+        </Link>
       </div>
     </div>
   );

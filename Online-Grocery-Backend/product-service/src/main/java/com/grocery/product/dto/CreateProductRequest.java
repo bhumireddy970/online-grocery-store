@@ -15,7 +15,7 @@ public record CreateProductRequest (
 
     @NotBlank(message = "Product name is required")
      String name,
-
+    
      String description,
 
     @Positive(message = "Price must be greater than zero")

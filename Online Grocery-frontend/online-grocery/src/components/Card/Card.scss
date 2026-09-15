@@ -93,5 +93,12 @@
         transform: translateY(0);
       }
     }
+    .quantity-actions-wrapper {
+      margin-left: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
   }
 }
