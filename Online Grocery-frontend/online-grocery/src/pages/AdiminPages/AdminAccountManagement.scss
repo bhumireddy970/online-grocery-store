@@ -76,6 +76,13 @@
         color: #ffffff;
       }
     }
+    p {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      font-size: 14px;
+      color: red;
+    }
   }
 
   .loading {

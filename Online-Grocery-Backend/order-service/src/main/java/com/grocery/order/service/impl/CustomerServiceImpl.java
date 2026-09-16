@@ -117,7 +117,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private Customer mapToEntity(CustomerDTO dto) {
 
-        Customer customer = new Customer();
+        Customer customer = new Customer(); 
 
         customer.setId(dto.id());
         customer.setName(dto.name());
@@ -125,6 +125,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(dto.phone());
         customer.setAddress(dto.address());
         customer.setPassword(dto.password());
+        customer.setRole(dto.role());
 
         return customer;
     }

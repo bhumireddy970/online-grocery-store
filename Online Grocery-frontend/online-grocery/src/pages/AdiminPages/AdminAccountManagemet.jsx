@@ -3,17 +3,28 @@ import { Link } from "react-router-dom";
 import "./AdminAccountManagement.scss";
 import { orderService } from "../../api/orderService";
 import BackButton from "../../components/Buttons/BackButton";
+import Alert from "../../components/Alert/Alert";
 
 const AdminAccountManagement = () => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [alert, setAlert] = useState({ isOpen: false, message: "" });
+
+  const showAlert = (message, type) => {
+    setAlert({ isOpen: true, message, type });
+  };
+
+  const handleCloseAlert = () => {
+    setAlert({ isOpen: false, message: "" });
+  };
 
   const initialFormState = {
     id: "",
     name: "",
     phone: "",
     email: "",
+    password: "",
     address: "",
     role: "admin",
   };
@@ -21,13 +32,60 @@ const AdminAccountManagement = () => {
   const [formData, setFormData] = useState(initialFormState);
   const [isEditing, setIsEditing] = useState(false);
 
+  const validateField = (field) => {
+    const newErrors = { ...errors };
+
+    if (field === "name") {
+      if (formData.name.trim() === "") {
+        newErrors.name = "Name is required";
+      } else if (!/^[a-zA-Z ]{3,}$/.test(formData.name)) {
+        newErrors.name = "Enter a valid name";
+      } else {
+        delete newErrors.name;
+      }
+    }
+    if (field === "phone") {
+      if (formData.phone.trim() === "") {
+        newErrors.phone = "Phone Number is required";
+      } else if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+        newErrors.phone = "Enter a valid Phone Number";
+      } else {
+        delete newErrors.phone;
+      }
+    }
+    if (field === "email") {
+      if (formData.email.trim() === "") {
+        newErrors.email = "Email is required";
+      } else if (!/^[a-z]{3,}\d*@gmail\.com$/.test(formData.email)) {
+        newErrors.email = "Enter a valid email id";
+      } else {
+        delete newErrors.email;
+      }
+    }
+
+    if (field === "password") {
+      if (formData.password.trim() === "") {
+        newErrors.password = "Password is required";
+      } else if (
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()+{}])[A-Za-z0-9!@#$%^&*()+{}]{8,}$/.test(
+          formData.password,
+        )
+      ) {
+        newErrors.password = "Enter a strong password";
+      } else {
+        delete newErrors.password;
+      }
+    }
+
+    setErrors(newErrors);
+  };
+
   useEffect(() => {
     fetchAdmins();
   }, []);
 
   const fetchAdmins = async () => {
     setLoading(true);
-    setError(null);
     try {
       const response = await orderService.getAllCustomers();
       if (Array.isArray(response?.data)) {
@@ -37,7 +95,7 @@ const AdminAccountManagement = () => {
         setAdmins(adminUsers);
       }
     } catch (err) {
-      setError(err?.response?.data?.message || err.message);
+      showAlert(err.response?.data?.message, "Error");
     } finally {
       setLoading(false);
     }
@@ -51,33 +109,31 @@ const AdminAccountManagement = () => {
   const handleClear = () => {
     setFormData(initialFormState);
     setIsEditing(false);
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email) {
-      alert("Name and Email are required fields.");
-      return;
-    }
-
     try {
       if (isEditing) {
-        await orderService.updateCustomer(formData);
+        await orderService.updateCustomerProfile(formData);
         setAdmins((prev) =>
           prev.map((admin) =>
             admin.id === formData.id ? { ...formData } : admin,
           ),
         );
+        showAlert("Admin updated Successfully", "Success");
       } else {
-        const response = await orderService.addCustomer(formData);
+        const response = await orderService.createCustomer(formData);
         const newAdmin = response?.data;
         if (newAdmin && newAdmin.role === "admin") {
           setAdmins((prev) => [...prev, newAdmin]);
         }
+        showAlert("Admin Added Successfully", "Success");
       }
       handleClear();
     } catch (err) {
-      alert(err?.response?.data?.message || err.message);
+      showAlert(err.response?.data?.message, "Error");
     }
   };
 
@@ -88,6 +144,7 @@ const AdminAccountManagement = () => {
       name: adminUser.name || "",
       phone: adminUser.phone || "",
       email: adminUser.email || "",
+      password: adminUser.password || "",
       address: adminUser.address || "",
       role: adminUser.role || "admin",
     });
@@ -104,8 +161,9 @@ const AdminAccountManagement = () => {
       if (isEditing && formData.id === id) {
         handleClear();
       }
+      showAlert("Admin deleted Successfully", "Success");
     } catch (err) {
-      alert(err?.response?.data?.message || err.message);
+      showAlert(err.response?.data?.message, "Error");
     }
   };
 
@@ -123,6 +181,7 @@ const AdminAccountManagement = () => {
             name="name"
             placeholder="Full Name"
             value={formData.name}
+            onBlur={()=>validateField("name")}
             onChange={handleInputChange}
           />
           <input
@@ -130,6 +189,7 @@ const AdminAccountManagement = () => {
             name="email"
             placeholder="Email Address"
             value={formData.email}
+            onBlur={()=>validateField("email")}
             onChange={handleInputChange}
           />
           <input
@@ -137,6 +197,15 @@ const AdminAccountManagement = () => {
             name="phone"
             placeholder="Phone Number"
             value={formData.phone}
+            onBlur={()=>validateField("phone")}
+            onChange={handleInputChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onBlur={()=>validateField("password")}
             onChange={handleInputChange}
           />
           <input
@@ -153,7 +222,10 @@ const AdminAccountManagement = () => {
           >
             <option value="admin">Admin</option>
           </select>
-
+        {errors.name ? <p>{errors.name}</p> : ""}
+        {errors.email ? <p>{errors.email}</p> : ""}
+        {errors.password ? <p>{errors.password}</p> : ""}
+        {errors.phone ? <p>{errors.phone}</p> : ""}
           <div className="form-actions">
             <button
               type="submit"
@@ -164,7 +236,9 @@ const AdminAccountManagement = () => {
             <button type="button" className="btn-clear" onClick={handleClear}>
               Clear
             </button>
+            
           </div>
+          
         </form>
       </div>
 
@@ -172,8 +246,6 @@ const AdminAccountManagement = () => {
         <h3>Admin Accounts</h3>
         {loading ? (
           <p className="loading">Loading admin accounts...</p>
-        ) : error ? (
-          <p className="error-message">{error}</p>
         ) : (
           <table className="admin-table">
             <thead>
@@ -221,6 +293,12 @@ const AdminAccountManagement = () => {
             </tbody>
           </table>
         )}
+        <Alert
+          isOpen={alert.isOpen}
+          message={alert.message}
+          onClose={handleCloseAlert}
+          type={alert.type}
+        />
       </div>
     </div>
   );

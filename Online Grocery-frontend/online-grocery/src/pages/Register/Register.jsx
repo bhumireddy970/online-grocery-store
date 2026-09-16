@@ -88,6 +88,7 @@ const Register = () => {
     phone: phone,
     address: address,
     password: password,
+    role:"customer"
   };
 
   const handleRegister = async (e) => {
