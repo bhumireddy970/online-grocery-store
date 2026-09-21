@@ -224,7 +224,6 @@ const ProductManagement = () => {
                 <th>Category</th>
                 <th>Price</th>
                 <th>Available Quantity</th>
-                <th>Reserved Quantity</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -248,7 +247,6 @@ const ProductManagement = () => {
                     <td>{matchedCategory.name}</td>
                     <td>{product.price}</td>
                     <td>{product.inventoryCount}</td>
-                    <td>{product.inventoryCountreserved}</td>
                     <td className="actions-cell">
                       <button
                         onClick={() => handleEditClick(product)}

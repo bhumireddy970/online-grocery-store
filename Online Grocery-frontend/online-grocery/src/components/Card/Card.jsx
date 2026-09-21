@@ -14,12 +14,7 @@ const Card = ({ product }) => {
   return (
     <div className="product-card">
       <div className="product-image">
-        <img
-          src={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcMNi6WAbyesx5sPfFA7HRcjDbTa9qjEaNh-rUsc_V-g&s=10"
-          }
-          alt={product.name}
-        />
+        <img src={`../../public/${product.name}.jpg`} alt={product.name} />
       </div>
 
       <div className="product-details">
@@ -27,7 +22,7 @@ const Card = ({ product }) => {
 
         <p className="product-price">₹{product.price}</p>
 
-        {currentCartItem? (
+        {currentCartItem ? (
           <div className="quantity-actions-wrapper">
             <button onClick={() => removeFromCart(product.id)}>-</button>
 
