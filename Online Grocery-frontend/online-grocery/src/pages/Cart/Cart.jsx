@@ -27,11 +27,7 @@ const Cart = () => {
 
           return (
             <div key={productId} className="cart-item-row">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcMNi6WAbyesx5sPfFA7HRcjDbTa9qjEaNh-rUsc_V-g&s=10"
-                alt={item.name}
-                width="50"
-              />
+              <img src={`../../public/${item.name}.jpg`} alt={item.name} />
 
               <div>
                 <h4>{item.name}</h4>

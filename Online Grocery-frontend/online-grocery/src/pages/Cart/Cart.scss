@@ -13,6 +13,18 @@
       align-items: center;
       gap: 10px;
     }
+
+    img{
+      width: 80px;
+      background-size: cover;
+      border-radius: 10%;
+      transition: opacity 0.3s ease-in-out, border 0.3s ease-in-out;
+      &:hover{
+        opacity: 50%;
+        border: 2px solid blue;
+      }
+
+    }
   }
 }
 
