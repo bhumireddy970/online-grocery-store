@@ -30,6 +30,8 @@ public record CustomerDTO(
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         String password,
 
+        String token,
+
         @Size(max = 255)
         String role
 

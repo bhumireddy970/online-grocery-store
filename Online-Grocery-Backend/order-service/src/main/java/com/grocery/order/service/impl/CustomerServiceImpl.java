@@ -7,6 +7,12 @@ import com.grocery.order.exception.CustomerNotFoundException;
 import com.grocery.order.repository.CustomerRepository;
 import com.grocery.order.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,24 +23,37 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTService jwtService;
+
     private final CustomerRepository customerRepository;
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
     public CustomerDTO login(LoginRequest loginRequest) {
 
-        Customer customer = customerRepository
-                .findByEmail(loginRequest.email())
-                .orElseThrow(() ->
-                        new RuntimeException("Invalid email or password")
-                );
 
-        if (!customer.getPassword()
-                .equals(loginRequest.password())) {
+        try{
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
 
+            Customer customer = customerRepository
+                    .findByEmail(loginRequest.email())
+                    .orElseThrow(() ->
+                            new RuntimeException("Invalid email or password")
+                    );
+
+            String token = jwtService.generateToken(customer.getEmail());
+            System.out.println(token);
+
+            return mapToDTO(customer,token);
+        }catch (BadCredentialsException ex){
             throw new RuntimeException("Invalid email or password");
         }
-
-        return mapToDTO(customer);
     }
+
+
 
     @Override
     public CustomerDTO createCustomer(CustomerDTO dto) {
@@ -44,6 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         Customer customer = mapToEntity(dto);
+        customer.setPassword(passwordEncoder.encode(dto.password()));
 
         Customer saved = customerRepository.save(customer);
 
@@ -109,6 +129,23 @@ public class CustomerServiceImpl implements CustomerService {
 
                 customer.getAddress(),
                 null,
+                null,
+                customer.getRole()
+
+
+        );
+    }
+
+    private CustomerDTO mapToDTO(Customer customer,String token) {
+
+        return new CustomerDTO(
+                customer.getId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getAddress(),
+                null,
+                token,
                 customer.getRole()
 
 
