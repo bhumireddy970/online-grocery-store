@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext, useMemo } from "react";
 import { AuthContext } from "./AuthContext";
-import axios from "axios";
+import { orderService } from "../api/orderService";
 
 export const CartContext = createContext();
 
@@ -125,10 +125,7 @@ export const CartProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:8083/api/orders",
-        requestBody,
-      );
+      const response = await orderService.addOrders(requestBody);
 
       if (response.data?.orderId) {
         setOrderId(response.data.orderId);
@@ -155,7 +152,7 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      await axios.put(`http://localhost:8083/api/orders/${orderId}/confirm`);
+      await orderService.confirmOrder(orderId);
 
       alert("Booking processed successfully!");
 
