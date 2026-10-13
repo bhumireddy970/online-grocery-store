@@ -162,7 +162,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(dto.phone());
         customer.setAddress(dto.address());
         customer.setPassword(dto.password());
-        customer.setRole(dto.role());
+        customer.setRole(dto.role() != null && !dto.role().isBlank()? dto.role() : "CUSTOMER");
 
         return customer;
     }

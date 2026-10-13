@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "PRODUCT-SERVICE", url = "http://localhost:8080")
+@FeignClient(name = "PRODUCT-SERVICE")
 public interface ProductClient {
 
     @GetMapping("/api/products/{id}")

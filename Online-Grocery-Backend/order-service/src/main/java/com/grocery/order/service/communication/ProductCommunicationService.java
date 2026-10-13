@@ -53,11 +53,13 @@ public class ProductCommunicationService {
     }
     public List<ProductResponse> productsFallback(
             BulkProductRequest request,
-            Exception ex){
+            Exception ex) {
+
+        ex.printStackTrace();
 
         throw new ProductServiceException(
-                "Unable to fetch products.");
-
+                "Unable to fetch products: " + ex.getMessage()
+        );
     }
 
 }

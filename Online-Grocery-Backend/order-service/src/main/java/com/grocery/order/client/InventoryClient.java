@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "INVENTORY-SERVICE", url = "http://localhost:8080")
+@FeignClient(name = "INVENTORY-SERVICE")
 public interface InventoryClient {
 
     @GetMapping("/api/inventory/product/{productId}")
