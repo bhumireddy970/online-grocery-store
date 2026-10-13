@@ -4,8 +4,10 @@ import { orderService } from "../../api/orderService";
 import { AuthContext } from "../../context/AuthContext";
 import "./Profile.scss";
 import Alert from "../../components/Alert/Alert";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate=useNavigate();
   const { user, login } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [alert, setAlert] = useState({ isOpen: false, message: "" });
@@ -67,13 +69,15 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await orderService.updateCustomerProfile(user.id,formData);
+      const response = await orderService.updateCustomerProfile(formData);
 
       login(response.data);
       setIsEditing(false);
 
-
-      showAlert("Profile updated successfully","Success");
+      showAlert("Profile updated successfully.Please Login again","Success");
+      setTimeout(()=>{
+        navigate("/login");
+      },1500)
     } catch (error) {
       console.error("Update failed:", error?.response?.data);
       showAlert(error?.response?.data,"Error");
